@@ -1,0 +1,87 @@
+/*背景圖片給我滿版阿 留甚麼空白*/
+body{
+	background-color: #F5FFFA;
+	color: #2F4F4F;
+	font-family: serif, sans-serif, cursive;
+	margin: 0;
+	prdding: 0;
+}
+
+/*深綠色那一大塊*/
+.top{
+	color: white;
+	font-family: serif, sans-serif, cursive;
+	background-color: #2F4F4F;
+	text-align: center;
+	padding: 50px;
+	margin: 0;
+}
+
+/*一整條目錄*/
+.navbar{
+	margin: 0;
+	background-color: #8FBC8F;
+	padding: 1px;
+	position: relative;/*方便下拉小選單定位(吧*/
+}
+
+/*還是一整條目錄*/
+#inthelist{
+	display: flex;/*水平放*/
+	justify-content: center;/*整體置中*/
+	list-style: none;/*去除點點*/
+	gap: 5em;
+	color: white;
+	widows: auto;
+}
+
+/*酷酷漸變字*/
+#inthelist > li:hover{
+	color: black;
+	transition: 0.2s;
+}
+
+/*目錄之小清單之小三角*/
+#inthelist > li:has(ul.detail)::after{
+	/*:has()就是不是「全部的li」是「有detail的li」窩*/
+	/*::after是指在文字後面加 不知道為麼要兩個冒號 怪*/
+	content: " ▼";
+	font-size: 0.7em;
+}
+
+/*目錄之小清單*/
+.detail{
+	display: none;/*隱藏下拉!!*/
+	position: absolute;/*絕對定位 寫完還是搞不懂 笑死*/
+	background-color: #8FBC8F;
+	list-style: none;
+	top: 100%;/*放在下面*/
+	left: -50%;
+	padding: 20px 0;
+	min-width: 150px;
+	text-align: center;
+}
+
+/*目錄之小清單要在滑鼠移過去時展開>3*/
+#inthelist > li:hover ul.detail{
+	display: block;
+}
+
+.content{
+	text-align: center;
+	justify-content: center;
+	padding: 20px;
+}
+
+@media all{
+	body{
+		font-size: inherit;/*實在是沒麼好寫...*/
+	}
+}
+
+@media print{
+	body{
+		background-color: white;
+	}
+}
+
