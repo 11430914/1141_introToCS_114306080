@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>114306080_HW6_1A2B</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: left;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        
+        .record-title {
+            font-size: 1.1em;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .input-area {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        #guessInput {
+            padding: 8px;
+            font-size: 16px;
+            width: 150px;
+            text-align: center;
+        }
+        #guessButton {
+            padding: 8px 15px;
+            font-size: 16px;
+            background-color: #f0f0f0; 
+            color: #333;
+            border: 1px solid #ccc; 
+            border-radius: 4px;
+        }
+        #recordArea {
+            text-align: left;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        .record-item {
+            margin-bottom: 5px;
+            padding: 5px;
+            background-color: #f9f9f9;
+            border-radius: 3px;
+        }
+    </style>
+
+</head>
+<body>
+
+    <h1 style="text-align: center;">114306080_HW6_1A2B</h1>
+    <div class="container">
+        <p style="text-align: center;">Enter 4 unique numbers (0-9)</p>
+
+        <div class="input-area" style="text-align: center;">
+            <input type="text" id="guessInput" maxlength="4" placeholder="1234">
+            
+            <button id="guessButton" onclick="play()">Guess!</button>
+        </div>
+
+        <p class="record-title">Game Record:</p>
+        <div id="recordArea">
+        </div>
+    </div>
+
+    <script>
+        let answer = generateAnswer(); 
+        let attempts = 0; 
+
+        function generateAnswer() {
+            const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+            let result = '';
+            for (let i = 0; i < 4; i++) {
+                const randIndex = Math.floor(Math.random() * digits.length);
+                result += digits[randIndex];
+                digits.splice(randIndex, 1);
+            }
+            return result;
+        }
+
+        function isValid(str) {
+            if (str.length !== 4 || isNaN(str)) {
+                alert("輸入必須為四位數字！");
+                return false;
+            }
+
+            const digits = str.split('');
+            const uniqueDigits = new Set(digits);
+            if (digits.length !== uniqueDigits.size) {
+                alert("輸入的四位數字不能重複！");
+                return false;
+            }
+
+            return true;
+        }
+
+        function checkAB(guess, ans) {
+            let A = 0;
+            let B = 0;
+            const guessArr = guess.split('');
+            const ansArr = ans.split('');
+
+            for (let i = 0; i < 4; i++) {
+                if (guessArr[i] === ansArr[i]) { 
+                    A++;
+                } else if (ansArr.includes(guessArr[i])) { 
+                    B++;
+                }
+            }
+            return `${A}A${B}B`;
+        }
+
+        function play() {
+            const inputField = document.getElementById('guessInput');
+            const recordArea = document.getElementById('recordArea'); 
+            const guess = inputField.value.trim();
+
+            if (!isValid(guess)) {
+                return; 
+            }
+
+            attempts++; 
+
+            const resultAB = checkAB(guess, answer);
+
+            const recordItem = document.createElement('div');
+            recordItem.className = 'record-item';
+            recordItem.textContent = `第${attempts}次: ${guess} → ${resultAB}`;
+            
+            recordArea.appendChild(recordItem); 
+
+            if (resultAB === '4A0B') {
+                alert(`恭喜你猜對了！\n你總共嘗試了 ${attempts} 次。`);
+                inputField.disabled = true;
+                document.getElementById('guessButton').disabled = true;
+            }
+
+            inputField.value = ''; 
+        }
+    </script>
+
+</body>
+</html>
